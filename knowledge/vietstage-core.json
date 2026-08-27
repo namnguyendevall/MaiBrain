@@ -1,0 +1,124 @@
+[
+  {
+    "id": "VIETSTAGE_APP_OVERVIEW",
+    "title": "VietStage là gì",
+    "instrument": "general",
+    "levelCode": "",
+    "lessonCode": "",
+    "contentType": "app_guide",
+    "keywords": ["hoạt động học tập", "tính năng VietStage", "VietStage có gì"],
+    "approved": true,
+    "version": 1,
+    "content": "VietStage là ứng dụng học và luyện tập nhạc cụ truyền thống Việt Nam. Người học có thể theo lộ trình bài học, xem nghệ sĩ ảo cô Mai hướng dẫn, luyện tập với micro, làm quiz và minigame, nhận sao, theo dõi tiến trình và sử dụng vật phẩm trang trí trong phòng học ảo."
+  },
+  {
+    "id": "VIETSTAGE_SUPPORTED_INSTRUMENTS",
+    "title": "Nhạc cụ trong VietStage",
+    "instrument": "general",
+    "levelCode": "",
+    "lessonCode": "",
+    "contentType": "app_guide",
+    "approved": true,
+    "version": 1,
+    "content": "VietStage định hướng hỗ trợ Đàn Tranh, Sáo Trúc, Đàn Bầu và Trống Chầu. Nội dung học chỉ được xem là chính thức khi đã được duyệt và đang hiển thị trong ứng dụng. Cô Mai không khẳng định một bài học chưa được phát hành là đã có trên ứng dụng."
+  },
+  {
+    "id": "VIETSTAGE_MAI_GREETING",
+    "title": "Phạm vi hỗ trợ của cô Mai",
+    "instrument": "general",
+    "levelCode": "",
+    "lessonCode": "",
+    "contentType": "conversation",
+    "approved": true,
+    "version": 1,
+    "content": "Cô Mai chào hỏi và hỗ trợ người học về VietStage, lộ trình học, cách luyện tập và kiến thức nhạc cụ truyền thống Việt Nam. Khi người học hỏi ngoài phạm vi này, cô Mai lịch sự từ chối và hướng người học quay lại nội dung VietStage hoặc nhạc cụ truyền thống Việt Nam."
+  },
+  {
+    "id": "DAN_TRANH_OVERVIEW",
+    "title": "Giới thiệu Đàn Tranh",
+    "instrument": "dan_tranh",
+    "levelCode": "LEVEL_1",
+    "lessonCode": "DAN_TRANH_LEVEL_1_BAI_1",
+    "contentType": "theory",
+    "approved": true,
+    "version": 1,
+    "content": "Đàn Tranh là nhạc cụ dây truyền thống của Việt Nam. Đàn có thân dạng hộp dài hình thang, các dây đi qua những con nhạn có thể dịch chuyển để điều chỉnh cao độ. Người chơi thường dùng tay phải để gảy và tay trái để nhấn, rung hoặc tạo sắc thái cho âm thanh."
+  },
+  {
+    "id": "DAN_TRANH_RIGHT_LEFT_HAND",
+    "title": "Vai trò hai tay khi chơi Đàn Tranh",
+    "instrument": "dan_tranh",
+    "levelCode": "LEVEL_1",
+    "lessonCode": "",
+    "contentType": "practice_guide",
+    "approved": true,
+    "version": 1,
+    "content": "Khi chơi Đàn Tranh, tay phải thường đeo móng ở các ngón gảy để tạo âm. Tay trái tác động lên phần dây để nhấn, rung và thay đổi sắc thái hoặc cao độ. Người học cần giữ tư thế thoải mái, gảy rõ tiếng và luyện chậm trước khi tăng tốc độ."
+  },
+  {
+    "id": "DAN_TRANH_TECHNIQUE_A_THEORY",
+    "title": "Kỹ thuật Á",
+    "instrument": "dan_tranh",
+    "levelCode": "LEVEL_2",
+    "lessonCode": "DAN_TRANH_LEVEL_2_KY_THUAT_A",
+    "contentType": "theory",
+    "approved": true,
+    "version": 1,
+    "content": "Kỹ thuật Á là cách gảy lướt nhanh qua nhiều dây đàn để nối các câu nhạc. Ngón Á thường xuất hiện ở phách yếu, giúp dẫn vào phách mạnh ở đầu hoặc cuối câu nhạc. Có ba cách chính: Á xuống dùng ngón cái tay phải lướt nhanh và đều qua các dây liền bậc từ âm cao xuống âm thấp; Á lên dùng ngón 2 hoặc ngón 3 lướt từ âm thấp lên âm cao; Á vòng kết hợp Á lên và Á xuống. Tiếng Á cần liền mạch và hòa quyện; tốc độ lướt tùy độ dài câu nhạc."
+  },
+  {
+    "id": "DAN_TRANH_TECHNIQUE_NHAN",
+    "title": "Kỹ thuật Nhấn",
+    "instrument": "dan_tranh",
+    "levelCode": "LEVEL_2",
+    "lessonCode": "DAN_TRANH_LEVEL_2_KY_THUAT_NHAN",
+    "contentType": "practice_guide",
+    "approved": true,
+    "version": 1,
+    "content": "Trong bài thực hành kỹ thuật Nhấn của VietStage, người học cần gảy đúng dây trước rồi mới dùng tay trái làm cao độ tăng lên mượt và giữ đủ thời gian theo yêu cầu. Một âm luyến bằng giọng hát không được tính là thao tác nhấn dây Đàn Tranh."
+  },
+  {
+    "id": "DAN_TRANH_TECHNIQUE_RUNG",
+    "title": "Kỹ thuật Rung",
+    "instrument": "dan_tranh",
+    "levelCode": "LEVEL_2",
+    "lessonCode": "DAN_TRANH_LEVEL_2_KY_THUAT_RUNG",
+    "contentType": "practice_guide",
+    "approved": true,
+    "version": 1,
+    "content": "Trong bài thực hành kỹ thuật Rung của VietStage, người học phải tạo một tiếng gảy Đàn Tranh hợp lệ trước khi thực hiện rung. Quá trình rung được theo dõi trên cùng một dây; tiếng ngân hoặc rung giọng không được tính là kỹ thuật rung dây."
+  },
+  {
+    "id": "DAN_TRANH_TECHNIQUE_SONG_THANH",
+    "title": "Kỹ thuật Song thanh",
+    "instrument": "dan_tranh",
+    "levelCode": "LEVEL_2",
+    "lessonCode": "DAN_TRANH_LEVEL_2_SONG_THANH",
+    "contentType": "practice_guide",
+    "approved": true,
+    "version": 1,
+    "content": "Trong bài thực hành Song thanh của VietStage, người học cần gảy đủ hai nốt của cặp trong cùng khoảng thời gian cho phép. Chỉ có một nốt trong cặp thì chưa được tính là đúng."
+  },
+  {
+    "id": "DAN_TRANH_TECHNIQUE_VE",
+    "title": "Kỹ thuật Vê",
+    "instrument": "dan_tranh",
+    "levelCode": "LEVEL_3",
+    "lessonCode": "DAN_TRANH_LEVEL_3_KY_THUAT_VE",
+    "contentType": "practice_guide",
+    "approved": true,
+    "version": 1,
+    "content": "Trong bài thực hành kỹ thuật Vê của VietStage, mỗi lần tấn công âm phải được xác nhận là tiếng dây đàn. Người học cần vê đúng dây, giữ tốc độ và độ đều theo yêu cầu, đồng thời tránh khoảng nghỉ quá dài giữa các lần gảy."
+  },
+  {
+    "id": "SAO_TRUC_OVERVIEW",
+    "title": "Giới thiệu Sáo Trúc",
+    "instrument": "sao_truc",
+    "levelCode": "LEVEL_1",
+    "lessonCode": "",
+    "contentType": "theory",
+    "approved": true,
+    "version": 1,
+    "content": "Sáo Trúc là nhạc cụ hơi truyền thống làm từ ống trúc. Người chơi tạo âm bằng cách thổi luồng hơi qua lỗ thổi và dùng các ngón tay đóng mở lỗ bấm để thay đổi cao độ. Khi luyện tập cần chú ý tư thế, cách đặt môi, luồng hơi và việc bấm kín lỗ."
+  }
+]
