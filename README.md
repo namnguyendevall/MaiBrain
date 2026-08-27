@@ -61,11 +61,40 @@ MaiBrain đã sẵn sàng nhận thêm ngữ cảnh khi VietStageApp được c�
   "instrumentContext": "dan_tranh",
   "levelCode": "LEVEL_2",
   "lessonCode": "DAN_TRANH_LEVEL_2_KY_THUAT_A",
-  "screenContext": "lesson_theory"
+  "screenContext": "lesson_theory",
+  "sessionId": "learner_42_chat_01"
 }
 ```
 
+`sessionId` là tùy chọn, gồm 8–128 ký tự chữ, số, `_` hoặc `-`. Khi có giá trị này, MaiBrain giữ tối đa một số lượt hội thoại gần nhất để hiểu các câu nối tiếp. Dữ liệu phiên tự hết hạn và chỉ nằm trong bộ nhớ tiến trình hiện tại.
+
 Trường `model` từ client bị bỏ qua. Model được server kiểm soát bằng biến môi trường `MAI_CHAT_MODEL` để người dùng không thể chọn tùy ý model khác.
+
+## Response JSON dành cho phiên bản Godot mới
+
+Endpoint streaming cũ vẫn là `POST /api/chat`. Endpoint chuẩn hóa để tích hợp sau là:
+
+```text
+POST /api/chat/json
+```
+
+Response:
+
+```json
+{
+  "success": true,
+  "inScope": true,
+  "emotion": "neutral",
+  "answer": "Mai hướng dẫn bạn...",
+  "sources": ["DAN_TRANH_TECHNIQUE_A_THEORY"]
+}
+```
+
+Xóa lịch sử một phiên:
+
+```text
+DELETE /api/chat/sessions/{sessionId}
+```
 
 ## Thêm kiến thức đã duyệt
 
@@ -107,6 +136,15 @@ Quy tắc dữ liệu:
 | `MAX_PROMPT_LENGTH` | `1200` | Số ký tự tối đa của câu hỏi |
 | `OLLAMA_TIMEOUT_MS` | `90000` | Thời gian chờ Ollama |
 | `DISABLE_EMBEDDINGS` | `false` | Đặt `true` để chỉ dùng tìm kiếm từ khóa |
+| `MAIBRAIN_API_KEY` | trống | Khi có giá trị, request chat phải gửi `X-MaiBrain-Key` hoặc Bearer token |
+| `MAIBRAIN_CORS_ORIGINS` | `*` | Danh sách browser origin, phân cách bằng dấu phẩy |
+| `RATE_LIMIT_WINDOW_MS` | `60000` | Cửa sổ rate limit |
+| `RATE_LIMIT_MAX_REQUESTS` | `40` | Số request tối đa mỗi IP trong một cửa sổ |
+| `MAX_CHAT_SESSIONS` | `500` | Số phiên hội thoại giữ trong bộ nhớ |
+| `MAX_HISTORY_TURNS` | `6` | Số lượt hội thoại gần nhất mỗi phiên |
+| `SESSION_TTL_MS` | `1800000` | Thời gian sống của phiên hội thoại |
+
+Khi triển khai thật, nên đặt `MAIBRAIN_API_KEY` và giới hạn `MAIBRAIN_CORS_ORIGINS`. Trong môi trường phát triển có thể để trống API key để VietStageApp cũ tiếp tục hoạt động.
 
 ## Kiểm thử
 
