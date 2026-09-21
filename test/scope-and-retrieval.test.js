@@ -11,7 +11,7 @@ async function createLocalKnowledgeBase() {
     return knowledgeBase;
 }
 
-test('nhận câu hỏi về VietStage là đúng phạm vi', async () => {
+test('tính năng ứng dụng chung không thuộc phạm vi nhạc cụ', async () => {
     const knowledgeBase = await createLocalKnowledgeBase();
     const retrieval = await knowledgeBase.retrieve('VietStage có những hoạt động học tập nào?', {
         instrument: 'general'
@@ -19,8 +19,9 @@ test('nhận câu hỏi về VietStage là đúng phạm vi', async () => {
     const result = assessScope('VietStage có những hoạt động học tập nào?', retrieval, {
         embeddingAvailable: false
     });
-    assert.equal(result.inScope, true);
-    assert.equal(retrieval[0].document.id, 'VIETSTAGE_APP_OVERVIEW');
+
+    assert.equal(result.inScope, false);
+    assert.ok(retrieval.every(item => item.document.contentType !== 'app_guide'));
 });
 
 test('truy xuất đúng tài liệu kỹ thuật Á', async () => {

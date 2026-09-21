@@ -9,7 +9,8 @@ MaiBrain kết nối VietStageApp với Ollama và giới hạn cô Mai trong ph
 3. Tìm tài liệu trong `knowledge/*.json`.
 4. Nếu không đủ liên quan, trả lời từ chối mà không gọi model sinh nội dung.
 5. Nếu tìm thấy tài liệu, gửi riêng các đoạn đã duyệt cho Ollama.
-6. Trả NDJSON streaming tương thích với `VietStageApp/scripts/AIManager.gd` hiện tại.
+6. Kiểm tra từng câu đầu ra phải là câu nguyên văn trong tài liệu đã duyệt; nội dung khác trả `INSUFFICIENT_KNOWLEDGE`.
+7. App nhận JSON đã kiểm tra. `/api/chat` giữ NDJSON tương thích nhưng chỉ gửi một record cuối, không phát token model trực tiếp.
 
 ## Yêu cầu
 
@@ -72,7 +73,7 @@ Trường `model` từ client bị bỏ qua. Model được server kiểm soát 
 
 ## Response JSON dành cho phiên bản Godot mới
 
-Endpoint streaming cũ vẫn là `POST /api/chat`. Endpoint chuẩn hóa để tích hợp sau là:
+Endpoint app sử dụng (không tự fallback sang streaming cũ):
 
 ```text
 POST /api/chat/json
@@ -83,12 +84,17 @@ Response:
 ```json
 {
   "success": true,
+  "status": "ANSWERED",
   "inScope": true,
   "emotion": "neutral",
-  "answer": "Mai hướng dẫn bạn...",
+  "answer": "Kỹ thuật Á là cách gảy lướt nhanh qua nhiều dây đàn để nối các câu nhạc.",
   "sources": ["DAN_TRANH_TECHNIQUE_A_THEORY"]
 }
 ```
+
+Các trạng thái: `ANSWERED` (đúng phạm vi, có nguồn), `OUT_OF_SCOPE` (ngoài phạm vi, không nguồn), `INSUFFICIENT_KNOWLEDGE` (đúng phạm vi nhưng chưa đủ tài liệu/đầu ra không được xác minh), `ERROR` (lỗi dịch vụ, `success: false`).
+
+Triển khai MaiBrain trước khi cập nhật app vì app mới yêu cầu trường `status`. Phạm vi chỉ gồm kiến thức/cách học nhạc cụ dân tộc Việt Nam; tài liệu `app_guide` và `conversation` không được dùng làm nguồn trả lời. Câu hỏi nêu rõ nhạc cụ được ưu tiên hơn màn hình hiện tại. Không tự thêm kiến thức chưa được giảng viên duyệt; kho hiện còn hạn chế nên có thể trả thiếu kiến thức. Model phải chọn câu nguyên văn, do đó lời đáp ít linh hoạt hơn mô hình sinh tự do.
 
 Xóa lịch sử một phiên:
 

@@ -31,26 +31,27 @@ function containsPattern(text, patterns) {
 }
 
 function assessScope(prompt, retrieval, options = {}) {
+    const { classifyTopic } = require('./chat-policy');
+    const topic = classifyTopic(prompt, options);
+    if (!topic.inScope) return topic;
     const normalizedPrompt = normalizeText(prompt);
     if (!normalizedPrompt) return { inScope: false, reason: 'empty_prompt' };
     if (containsPattern(normalizedPrompt, PROMPT_INJECTION_PATTERNS)) {
         return { inScope: false, reason: 'prompt_injection' };
     }
-    if (containsPattern(normalizedPrompt, OUT_OF_SCOPE_PATTERNS)) {
-        return { inScope: false, reason: 'disallowed_topic' };
-    }
 
     const best = retrieval[0];
-    if (!best) return { inScope: false, reason: 'no_knowledge' };
+    if (!best) return { inScope: true, reason: 'no_knowledge', answerable: false };
 
     const hasLessonContext = Boolean(options.lessonCode);
     const threshold = options.embeddingAvailable ? 0.42 : 0.12;
     const contextualThreshold = hasLessonContext ? Math.min(threshold, 0.14) : threshold;
-    if (best.score < contextualThreshold) {
-        return { inScope: false, reason: 'low_relevance', score: best.score };
+    const relevance = Math.max(best.lexicalScore || 0, best.semanticScore || 0);
+    if (relevance < contextualThreshold && !(hasLessonContext && best.document.lessonCode === options.lessonCode)) {
+        return { inScope: true, reason: 'low_relevance', answerable: false, score: relevance };
     }
 
-    return { inScope: true, reason: 'approved_knowledge_found', score: best.score };
+    return { inScope: true, answerable: true, reason: 'approved_knowledge_found', score: best.score };
 }
 
 module.exports = {

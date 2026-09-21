@@ -164,13 +164,15 @@ class KnowledgeBase {
     }
 
     async retrieve(query, context = {}) {
+        context = require('./chat-policy').resolveContext(query, context);
         const instrument = normalizeText(context.instrument || 'general').replace(/-/g, '_');
         const lessonCode = String(context.lessonCode || '').toUpperCase();
         const levelCode = String(context.levelCode || '').toUpperCase();
         const candidates = this.documents.filter((document) => (
-            document.instrument === 'general' ||
-            instrument === 'general' ||
-            document.instrument === instrument
+            !['app_guide', 'conversation'].includes(document.contentType) &&
+            (context.instruments.length > 1
+                ? context.instruments.includes(document.instrument)
+                : instrument === 'general' || document.instrument === instrument)
         ));
 
         let queryEmbedding = null;
