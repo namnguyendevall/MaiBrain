@@ -21,7 +21,7 @@ test('tính năng ứng dụng chung không thuộc phạm vi nhạc cụ', asyn
     });
 
     assert.equal(result.inScope, false);
-    assert.ok(retrieval.every(item => item.document.contentType !== 'app_guide'));
+    assert.ok(retrieval.every(item => item.document.instrument !== 'general'));
 });
 
 test('truy xuất đúng tài liệu kỹ thuật Á', async () => {

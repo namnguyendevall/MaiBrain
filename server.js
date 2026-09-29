@@ -297,6 +297,14 @@ app.use((error, req, res, _next) => {
 });
 
 async function start() {
+	if (process.env.NODE_ENV === 'production') {
+		if (!process.env.MAIBRAIN_API_KEY) {
+			throw new Error('MAIBRAIN_API_KEY is required in production.');
+		}
+		if (!process.env.MAIBRAIN_CORS_ORIGINS || process.env.MAIBRAIN_CORS_ORIGINS.trim() === '*') {
+			throw new Error('MAIBRAIN_CORS_ORIGINS must list explicit origins in production.');
+		}
+	}
     await knowledgeBase.initialize();
     app.listen(PORT, () => {
         console.log(`MaiBrain đang chạy tại http://localhost:${PORT}`);

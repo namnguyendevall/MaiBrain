@@ -3,6 +3,7 @@ const path = require('path');
 
 const DEFAULT_EMBED_URL = 'http://127.0.0.1:11434/api/embed';
 const DEFAULT_EMBED_MODEL = 'embeddinggemma';
+const SUPPORTED_INSTRUMENTS = new Set(['dan_tranh', 'sao_truc', 'dan_bau', 'trong_chau']);
 
 const STOP_WORDS = new Set([
     'a', 'ai', 'bi', 'ban', 'bang', 'cach', 'cac', 'cho', 'co', 'cua', 'da',
@@ -121,6 +122,8 @@ class KnowledgeBase {
                 }
 
                 const instrument = normalizeText(item.instrument || 'general').replace(/-/g, '_');
+                // General app/product documents are never answer sources.
+                if (!SUPPORTED_INSTRUMENTS.has(instrument)) continue;
                 const document = {
                     ...item,
                     instrument,
@@ -215,5 +218,6 @@ module.exports = {
     cosineSimilarity,
     lexicalSimilarity,
     normalizeText,
-    tokenize
+    tokenize,
+    SUPPORTED_INSTRUMENTS
 };
