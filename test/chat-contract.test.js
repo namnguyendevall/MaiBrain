@@ -1,7 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { app, knowledgeBase } = require('../server');
-const { resolveContext, classifyTopic, validateGroundedAnswer } = require('../chat-policy');
+const { resolveContext, classifyTopic, validateGroundedAnswer, hasDirectQuantityEvidence } = require('../chat-policy');
 const { assessScope } = require('../scope-policy');
 const lesson = { instrument: 'dan_tranh', lessonCode: 'DAN_TRANH_LEVEL_2_KY_THUAT_A' };
 knowledgeBase.documents = knowledgeBase.loadApprovedDocuments();
@@ -35,6 +35,12 @@ test('unverified output and additions are blocked', () => {
     assert.equal(validateGroundedAnswer(doc.content, sources), true);
     assert.equal(validateGroundedAnswer(doc.content + ' Hãy mua cổ phiếu.', sources), false);
     assert.equal(validateGroundedAnswer('NO_KNOWLEDGE', sources), false);
+});
+test('a topical overview without a stated quantity cannot answer a quantity question', async () => {
+    for (const prompt of ['Sáo trúc có bao nhiêu lỗ?', 'Đàn tranh truyền thống có bao nhiêu dây?']) {
+        const sources = await knowledgeBase.retrieve(prompt, { instrument: 'general', topK: 4 });
+        assert.equal(hasDirectQuantityEvidence(prompt, sources), false, prompt);
+    }
 });
 test('JSON and NDJSON routes validate before emitting content', async t => {
     const originalFetch = global.fetch;

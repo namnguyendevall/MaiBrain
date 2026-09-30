@@ -1,4 +1,4 @@
-const { normalizeText } = require('./knowledge-base');
+const { normalizeText, tokenize } = require('./knowledge-base');
 
 const INSTRUMENT_NAMES = {
     dan_tranh: /\b(dan tranh|zither)\b/,
@@ -59,4 +59,31 @@ function validateGroundedAnswer(answer, sources) {
     return true;
 }
 
-module.exports = { resolveContext, classifyTopic, validateGroundedAnswer };
+// A topical document is not enough evidence for an exact quantity. For example,
+// a document mentioning flute finger holes cannot answer how many there are
+// unless an approved sentence actually states a quantity.
+function requiresExactQuantity(prompt) {
+    return /\b(bao nhieu|may|so luong)\b/.test(normalizeText(prompt));
+}
+
+function hasDirectQuantityEvidence(prompt, sources) {
+    if (!requiresExactQuantity(prompt)) return true;
+
+    const normalizedPrompt = normalizeText(prompt);
+    const queryTokens = tokenize(prompt).filter(token => !['bao', 'nhieu', 'may', 'so', 'luong'].includes(token));
+    // Some target nouns (for example “dây”) are generic stop words for
+    // retrieval, but they are essential when validating a quantity question.
+    const countedSubjects = normalizedPrompt.split(' ').filter(token => ['lo', 'day', 'phim', 'thanh', 'trong'].includes(token));
+    const quantity = '(?:\\d+|mot|hai|ba|bon|nam|sau|bay|tam|chin|muoi(?:\\s+(?:mot|hai|ba|bon|nam|sau|bay|tam|chin))?)';
+    return sources.some(({ document }) => sentences(document.content).some(sentence => {
+        const normalizedSentence = normalizeText(sentence);
+        // Quantity must describe the requested part of the instrument, rather
+        // than an unrelated phrase such as “một dây” in a playing instruction.
+        if (countedSubjects.length > 0) {
+            return countedSubjects.some(subject => new RegExp(`\\b(?:co|gom|bao gom)\\s+${quantity}(?:\\s+\\w+){0,2}\\s+${subject}\\b`).test(normalizedSentence));
+        }
+        return queryTokens.some(token => normalizedSentence.includes(token)) && new RegExp(`\\b${quantity}\\b`).test(normalizedSentence);
+    }));
+}
+
+module.exports = { resolveContext, classifyTopic, validateGroundedAnswer, hasDirectQuantityEvidence };

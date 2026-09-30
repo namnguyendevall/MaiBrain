@@ -3,7 +3,7 @@ const cors = require('cors');
 
 const { KnowledgeBase } = require('./knowledge-base');
 const { assessScope, sanitizeInstrument } = require('./scope-policy');
-const { resolveContext, classifyTopic, validateGroundedAnswer } = require('./chat-policy');
+const { resolveContext, classifyTopic, validateGroundedAnswer, hasDirectQuantityEvidence } = require('./chat-policy');
 const { SessionStore } = require('./session-store');
 const {
     createApiKeyMiddleware,
@@ -205,6 +205,17 @@ async function handleChat(req, res) {
         const selectedSources = retrieval.filter((item, index) => (
             index === 0 || item.score >= Math.max(0.1, retrieval[0].score - 0.2)
         ));
+        if (!hasDirectQuantityEvidence(userPrompt, selectedSources)) {
+            sendChat(req, res, 200, {
+                success: true,
+                inScope: true,
+                status: 'INSUFFICIENT_KNOWLEDGE',
+                emotion: 'neutral',
+                answer: REFUSALS.no_knowledge,
+                sources: []
+            });
+            return;
+        }
         const history = sessionStore.getHistory(sessionId);
         const payload = {
             model: CHAT_MODEL,
